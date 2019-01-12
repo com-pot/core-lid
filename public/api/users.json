@@ -1,0 +1,7 @@
+{
+  "data": [
+    {"id":  "gman", "name": "G-Man"},
+    {"id":  "crowbar", "name": "Gordon"},
+    {"id":  "leslie", "name":"Leslie Knope"}
+  ]
+}
