@@ -21,7 +21,7 @@ const styles = {
     },
 };
 
-function ButtonAppBar(props) {
+function NavigationMenu(props) {
     const { classes } = props;
     return (
         <div className={classes.root}>
@@ -51,8 +51,8 @@ function ButtonAppBar(props) {
     );
 }
 
-ButtonAppBar.propTypes = {
+NavigationMenu.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ButtonAppBar);
+export default withStyles(styles)(NavigationMenu);

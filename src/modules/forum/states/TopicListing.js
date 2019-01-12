@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import {UISref} from "@uirouter/react";
 import Typography from "@material-ui/core/Typography/Typography";
 import Grid from "@material-ui/core/Grid/Grid";
 import {withStyles} from '@material-ui/core/styles';
-import TablePagination from "@material-ui/core/TablePagination";
+import Pagination from 'material-ui-flat-pagination';
 
 import rest from "../../../services/restInstance";
 
@@ -13,37 +13,35 @@ class TopicListing extends React.Component {
         super(props);
 
         this.state = {
-            pagination: {
-                count: 0,
-                page: Number.parseInt(this.props.$stateParams.page) || 0,
-                rpp: 2,
-            },
-            topics: []
+            topics: [],
+            totalTopics: 0
         };
     }
 
     async componentDidMount() {
         const page = this.props.page || 1;
-        const {pagination} = this.state;
+        const {pagination} = this.props;
 
         try {
             const topics = await rest.get("forum/topics", {query: {page: page}});
 
             this.setState({
-                pagination: {...pagination, count: topics.length},
-                topics: topics.slice(pagination.page * pagination.rpp, (pagination.page + 1) * pagination.rpp),
+                topics: topics.slice(pagination.offset, pagination.offset + pagination.limit),
+                totalTopics: topics.length
             });
         } catch (e) {
             console.error("Topic not loaded: ", e);
         }
     }
 
-    handleChangePage(page) {
-        this.props.transition.router.stateService.go('app.forum.topicListing', {page: page});
-    };
+    switchPage(offset) {
+        const params = {page: this.props.pagination.offsetToPage(offset)};
+        this.props.transition.router.stateService.go('app.forum.topicListing', params);
+    }
 
     render() {
-        const {pagination, topics} = this.state;
+        const {topics} = this.state;
+        const {pagination} = this.props;
 
         return (
             <div>
@@ -52,27 +50,13 @@ class TopicListing extends React.Component {
                     const oddClass = index % 2 === 0 ? this.props.classes.odd : '';
                     return <TopicRow key={topic.id} topic={topic} classes={[oddClass]}/>
                 })}
-                <table>
-                    <tfoot>
-                    <tr>
-                        <TablePagination page={pagination.page} rowsPerPage={pagination.rpp} count={pagination.count}
-                                         onChangePage={(e, page) => this.handleChangePage(page)}
-                                         rowsPerPageOptions={[12, 24, 60]}/>
-                    </tr>
-                    </tfoot>
-                </table>
+
+                <Pagination limit={pagination.limit} offset={pagination.offset} total={this.state.totalTopics}
+                            onClick={(event, offset) => this.switchPage(offset, event)}/>
             </div>
         );
     }
 }
-
-TopicListing.propTypes = {
-    topics: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        title: PropTypes.string,
-        lastUpdate: PropTypes.number
-    }))
-};
 
 class TopicRow extends React.Component {
     render() {
