@@ -5,14 +5,6 @@ import NavigationMenu from './NavigationMenu';
 import withRoot from './withRoot';
 import {withStyles} from '@material-ui/core/styles';
 
-const styles = (theme) => ({
-    content: {
-        padding: theme.spacing.unit,
-        paddingTop: theme.spacing.unit * 2,
-        textAlign: 'center'
-    }
-});
-
 class Layout extends React.Component {
     render() {
         const {classes} = this.props;
@@ -27,5 +19,15 @@ class Layout extends React.Component {
         )
     }
 }
+
+const styles = (theme) => ({
+    content: {
+        padding: theme.spacing.unit,
+        marginTop: theme.spacing.unit,
+        marginLeft: theme.spacing.unit * 4,
+        marginRight: theme.spacing.unit * 4,
+        textAlign: 'center'
+    }
+});
 
 export default withStyles(styles)(withRoot(Layout));

@@ -6,12 +6,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 import {withStyles} from '@material-ui/core/styles';
 import TablePagination from "@material-ui/core/TablePagination";
 
-
-const styles = {
-    odd: {
-        backgroundColor: '#CCC'
-    }
-};
+import rest from "../../../services/restInstance";
 
 class TopicListing extends React.Component {
     constructor(props) {
@@ -27,37 +22,20 @@ class TopicListing extends React.Component {
         };
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const page = this.props.page || 1;
+        const {pagination} = this.state;
 
-        setTimeout(() => {
-            let topics = [
-                {
-                    id: 'topic-' + (((page - 1) * 20) + 1),
-                    title: 'Golf: Náčiní a hřiště',
-                    lastUpdate: 1546008780310,
-                    lastContributor: 'arthas'
-                },
-                {
-                    id: 'topic-' + (((page - 1) * 20) + 14),
-                    title: 'Ochrana přírodního prostředí',
-                    lastUpdate: 1546007780310,
-                    lastContributor: 'pamela'
-                },
-                {
-                    id: 'topic-' + (((page - 1) * 20) + 37),
-                    title: 'Zájezdy a dovolený',
-                    lastUpdate: 1546009780310,
-                    lastContributor: 'bilbo'
-                },
-            ];
+        try {
+            const topics = await rest.get("forum/topics", {query: {page: page}});
 
-            const {pagination} = this.state;
             this.setState({
                 pagination: {...pagination, count: topics.length},
                 topics: topics.slice(pagination.page * pagination.rpp, (pagination.page + 1) * pagination.rpp),
             });
-        }, 250);
+        } catch (e) {
+            console.error("Topic not loaded: ", e);
+        }
     }
 
     handleChangePage(page) {
@@ -118,6 +96,12 @@ class TopicRow extends React.Component {
         );
     }
 }
+
+const styles = {
+    odd: {
+        backgroundColor: '#CCC'
+    }
+};
 
 export default withStyles(styles)(TopicListing);
 

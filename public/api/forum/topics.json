@@ -1,0 +1,23 @@
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": "golf",
+      "title": "Golf: Náčiní a hřiště",
+      "lastUpdate": 1546008780310,
+      "lastContributor": "arthas"
+    },
+    {
+      "id": "priroda",
+      "title": "Ochrana přírodního prostředí",
+      "lastUpdate": 1546007780310,
+      "lastContributor": "pamela"
+    },
+    {
+      "id": "dovolena",
+      "title": "Zájezdy a dovolený",
+      "lastUpdate": 1546009780310,
+      "lastContributor": "bilbo"
+    }
+  ]
+}

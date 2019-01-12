@@ -6,10 +6,7 @@ import * as pages from './modules/pages';
 import * as forum from './modules/forum';
 
 export const states = [
-        {
-            name: 'app',
-            component: Layout
-        }
+        {name: 'app', component: Layout}
     ]
         .concat(pages.states)
         .concat(forum.states)

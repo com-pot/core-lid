@@ -17,18 +17,7 @@ export const states = [
         url: 'topic/:topicId',
         component: TopicView,
         resolve: {
-            topic: ($transition$) => ({
-                id: $transition$.params().topicId,
-                title: "Bigg topiccc",
-                description: "'<hr/>Ayoooo, let's get crayzy dumb!!<br/><br/>",
-            }),
-            posts: () => ([
-                {id: 1496, author: 'tina', content: 'Burgers <i>suuuck</i>.'},
-                {id: 1499, author: 'bob', content: 'Burgers <i>suuuck</i>.'},
-                {id: 2413, author: 'margaret', content: 'Burgers <i>suuuck</i>.'},
-                {id: 2689, author: 'louise', content: 'Burgers <i>suuuck</i>.'},
-                {id: 2690, author: 'parker', content: 'Burgers <i>suuuck</i>.'},
-            ])
+            topicId: ($transition$) => ($transition$.params().topicId),
         }
     },
 ];
