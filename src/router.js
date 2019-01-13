@@ -17,3 +17,14 @@ export const states = [
 export const plugins = [
     pushStateLocationPlugin
 ];
+
+export const config = (router) => {
+    router.urlRouter.otherwise((a,origin,router, d, e) => {
+        router.stateService.go('app.404', {
+            origin
+        });
+    });
+
+    // todo: disable strict mode / trailing slash enforcement
+};
+

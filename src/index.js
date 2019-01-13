@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import * as router from "./router";
 
 ReactDOM.render(
-    <UIRouter states={router.states} plugins={router.plugins}>
+    <UIRouter states={router.states} plugins={router.plugins} config={router.config}>
         <UIView />
     </UIRouter>,
     document.getElementById('root'),
