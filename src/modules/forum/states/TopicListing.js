@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import Grid from "@material-ui/core/Grid/Grid";
 import {withStyles} from '@material-ui/core/styles';
 import Pagination from 'material-ui-flat-pagination';
+import DateControl from '../../generic/components/DateControl'
 
 import rest from "../../../services/restInstance";
 
@@ -41,14 +42,14 @@ class TopicListing extends React.Component {
 
     render() {
         const {topics} = this.state;
-        const {pagination} = this.props;
+        const {pagination, classes} = this.props;
 
         return (
             <div>
-                <h1>Topics</h1>
+                <Typography variant="h1">Topics</Typography>
                 {topics.map((topic, index) => {
-                    const oddClass = index % 2 === 0 ? this.props.classes.odd : '';
-                    return <TopicRow key={topic.id} topic={topic} classes={[oddClass]}/>
+                    const oddClass = index % 2 === 0 ? classes.odd : '';
+                    return <TopicRow key={topic.id} topic={topic} classes={[classes.topicRow, oddClass]}/>
                 })}
 
                 <Pagination limit={pagination.limit} offset={pagination.offset} total={this.state.totalTopics}
@@ -73,7 +74,7 @@ class TopicRow extends React.Component {
                         <Typography variant="caption">{topic.title}</Typography>
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography>{topic.lastUpdate}</Typography>
+                        <DateControl value={topic.lastUpdate}/>
                     </Grid>
                 </Grid>
             </UISref>
@@ -82,6 +83,9 @@ class TopicRow extends React.Component {
 }
 
 const styles = {
+    topicRow: {
+        cursor: 'pointer',
+    },
     odd: {
         backgroundColor: '#CCC'
     }
