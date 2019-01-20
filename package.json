@@ -10,7 +10,8 @@
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "react-scripts": "latest"
+    "react-scripts": "latest",
+    "slugify": "^1.3.4"
   },
   "scripts": {
     "start": "react-scripts start",

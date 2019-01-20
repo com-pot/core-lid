@@ -1,0 +1,10 @@
+{
+  "status": "ok",
+  "data": [
+    {"id": "general", "title":  "General"},
+    {"id": "lifestyle", "title":  "Lifestyle"},
+    {"id": "tv-shows-and-movies", "title":  "TV Shows and Movies"},
+    {"id": "sport", "title":  "Sport"},
+    {"id": "hobby", "title":  "Hobbies"}
+  ]
+}

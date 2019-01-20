@@ -23,7 +23,6 @@ class TopicView extends React.Component {
         console.log(this.props);
         try {
             const topic = await rest.get("forum/topics/priroda");
-            console.log(topic);
             this.setState({topic: topic});
         } catch (e) {
             console.error(e)
