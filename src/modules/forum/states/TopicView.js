@@ -9,6 +9,7 @@ import * as icons from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid/Grid";
 
 import rest from "../../../services/restInstance";
+import {UISref} from "@uirouter/react";
 
 class TopicView extends React.Component {
     constructor(props) {
@@ -32,7 +33,7 @@ class TopicView extends React.Component {
 
 
     render() {
-        if(!this.state.topic) {
+        if (!this.state.topic) {
             return <Typography>Loading...</Typography>
         }
 
@@ -87,8 +88,12 @@ class PostView extends React.Component {
                 <CardContent>
                     <Grid container>
                         <Grid item xs={7} className={classes.userIndicator}>
-                            <Avatar aria-label="Recipe">{post.author.substr(0, 1).toUpperCase()}</Avatar>
-                            <Typography className={classes.userName}>{post.author}</Typography>
+                            <UISref to="app.user" params={{userId: post.author}}>
+                                <div>
+                                    <Avatar>{post.author.substr(0, 1).toUpperCase()}</Avatar>
+                                    <span className={classes.userName}>{post.author}</span>
+                                </div>
+                            </UISref>
                         </Grid>
                         <Grid item xs={5} className={classes.postActions}>
                             <IconButton>

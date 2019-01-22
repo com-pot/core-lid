@@ -8,12 +8,15 @@ import Pagination from 'material-ui-flat-pagination';
 import DateControl from '../../generic/components/DateControl'
 
 import rest from "../../../services/restInstance";
+import Button from "@material-ui/core/Button";
+import SearchField from "../../generic/components/SearchField";
 
 class TopicListing extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            searchQuery: '',
             topics: [],
             totalTopics: 0
         };
@@ -40,20 +43,45 @@ class TopicListing extends React.Component {
         this.props.transition.router.stateService.go('app.forum.topicListing', params);
     }
 
+    handleChangeValue(field) {
+        return (event) => this.setState({[field]: event.target.value});
+    }
+
+
+    handleSearch(query) {
+        // todo: search
+    }
+
     render() {
         const {topics} = this.state;
         const {pagination, classes} = this.props;
 
         return (
-            <div>
+            <div className={classes.root}>
                 <Typography variant="h1">Topics</Typography>
-                {topics.map((topic, index) => {
-                    const oddClass = index % 2 === 0 ? classes.odd : '';
-                    return <TopicRow key={topic.id} topic={topic} classes={[classes.topicRow, oddClass]}/>
-                })}
-
-                <Pagination limit={pagination.limit} offset={pagination.offset} total={this.state.totalTopics}
-                            onClick={(event, offset) => this.switchPage(offset, event)}/>
+                <Grid container>
+                    <Grid item xs={4}>
+                        <SearchField id="topic-search" onSearch={(searchQuery) => this.handleSearch(searchQuery)}
+                                     query={this.state.searchQuery}
+                                     onChange={(searchQuery) => this.setState({searchQuery})}/>
+                    </Grid>
+                    <Grid item xs={4}/>
+                    <Grid item xs={4}>
+                        <UISref to="app.forum.createTopic">
+                            <Button variant="contained" color="primary">Create topic</Button>
+                        </UISref>
+                    </Grid>
+                </Grid>
+                <div className={classes.topics}>
+                    {topics.map((topic, index) => {
+                        const oddClass = index % 2 === 0 ? classes.odd : '';
+                        return <TopicRow key={topic.id} topic={topic} classes={[classes.topicRow, oddClass]}/>
+                    })}
+                </div>
+                <div className={classes.pagination}>
+                    <Pagination limit={pagination.limit} offset={pagination.offset} total={this.state.totalTopics}
+                                onClick={(event, offset) => this.switchPage(offset, event)}/>
+                </div>
             </div>
         );
     }
@@ -70,7 +98,10 @@ class TopicRow extends React.Component {
         return (
             <UISref to="app.forum.topicView" params={{topicId: topic.id}}>
                 <Grid container className={classes.join(' ')}>
-                    <Grid item xs={8}>
+                    <Grid item xs={2}>
+                        <span>{topic.category}</span>
+                    </Grid>
+                    <Grid item xs={6}>
                         <Typography variant="caption">{topic.title}</Typography>
                     </Grid>
                     <Grid item xs={4}>
@@ -82,14 +113,36 @@ class TopicRow extends React.Component {
     }
 }
 
-const styles = {
+const styles = (theme) => ({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    heading: {
+
+    },
+    topics: {
+        padding: theme.spacing.unit,
+        marginTop: theme.spacing.unit * 3,
+        marginBottom: theme.spacing.unit * 3,
+        minHeight: 200,
+        borderColor: 'dimgray',
+        borderStyle: 'solid',
+        borderWidth: 0,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+    },
+    pagination: {
+        align: 'end',
+    },
     topicRow: {
+        backgroundColor: '#EEE',
         cursor: 'pointer',
     },
     odd: {
         backgroundColor: '#CCC'
     }
-};
+});
 
 export default withStyles(styles)(TopicListing);
 
