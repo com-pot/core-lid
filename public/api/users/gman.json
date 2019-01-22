@@ -4,9 +4,9 @@
     "name": "G-Man",
     "motto": "Right man on the wrong place in the wrong time can make all the difference in the world.",
     "description": "<h4>Unforseen consequences</h4>",
-    "infoNibs": [
-      {"type": "occupancy", "text": "universal guy"},
-      {"type": "custom", "label": "Accessory", "text": "Mystery briefcase"}
+    "infoNibbles": [
+      {"type": "occupancy", "value": "Universal guy"},
+      {"type": "custom", "label": "Accessory", "value": "Mystery briefcase"}
     ],
     "social": {
       "facebook": "gee-main"

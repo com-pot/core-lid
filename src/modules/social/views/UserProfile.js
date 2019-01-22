@@ -6,14 +6,23 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/es/Avatar/Avatar";
 import Typography from "@material-ui/core/es/Typography/Typography";
-import InfoNib from "../controls/InfoNib";
+import InfoNibbleSingle from "../controls/InfoNibbleSingle";
+import Button from "@material-ui/core/es/Button/Button";
+import SettingsIcon from "@material-ui/icons/Settings"
+import NibblesModal from "../controls/NibblesModal";
 
+/**
+ * @property {Object} user
+ * @property {InfoNibbleSingle[]} user.infoNibbles
+ */
 class UserProfile extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             user: undefined,
+            nibblesOpen: false,
+            saving: false,
         };
     }
 
@@ -25,6 +34,23 @@ class UserProfile extends React.Component {
             this.setState({user});
         } catch (e) {
             console.error(e);
+        }
+    }
+
+    handleModal(result) {
+        this.setState({
+            nibblesOpen: false,
+            saving: !!result,
+        });
+
+        if(result) {
+            // todo: save result
+            setTimeout(() => {
+                this.setState({
+                    user: {...this.state.user, infoNibbles: result},
+                    saving: false,
+                });
+            }, 200);
         }
     }
 
@@ -47,7 +73,13 @@ class UserProfile extends React.Component {
                         <Typography variant="body1" dangerouslySetInnerHTML={{__html: user.description}}/>
                     </Grid>
                     <Grid item xs={4}>
-                        {user.infoNibs.map((nib, i) => <InfoNib key={i} nib={nib}/>)}
+                        <Button onClick={() => this.setState({nibblesOpen: true})}>
+                            <SettingsIcon/>
+                        </Button>
+                        <NibblesModal open={this.state.nibblesOpen} onClose={(result) => this.handleModal(result)}
+                                      nibbles={user.infoNibbles}/>
+
+                        {user.infoNibbles.map((nibble, i) => <InfoNibbleSingle key={i} nibble={nibble}/>)}
                     </Grid>
                 </Grid>
             </Paper>
